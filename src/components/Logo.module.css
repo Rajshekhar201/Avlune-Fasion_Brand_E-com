@@ -1,0 +1,60 @@
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  transition: opacity var(--transition-base);
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: inherit;
+  line-height: 1;
+}
+
+.logoImage {
+  height: auto;
+  object-fit: contain;
+}
+
+.tagline {
+  font-family: var(--font-accent);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Sizes */
+.size_sm .logoText { font-size: 1.25rem; }
+.size_sm .tagline { font-size: 0.625rem; }
+.size_sm .logoImage { height: 28px; }
+
+.size_md .logoText { font-size: 1.75rem; }
+.size_md .tagline { font-size: 0.75rem; }
+.size_md .logoImage { height: 40px; }
+
+.size_lg .logoText { font-size: 2.5rem; }
+.size_lg .tagline { font-size: 0.875rem; }
+.size_lg .logoImage { height: 56px; }
+
+.size_xl .logoText { font-size: 4rem; }
+.size_xl .tagline { font-size: 1.125rem; }
+.size_xl .logoImage { height: 80px; }
+
+/* Variants */
+.variant_light .logoText { color: var(--color-white); }
+.variant_light .tagline { color: rgba(255,255,255,0.7); }
+
+.variant_dark .logoText { color: var(--color-primary); }
+.variant_dark .tagline { color: var(--color-muted); }
+
+.variant_gold .logoText { color: var(--color-accent); }
+.variant_gold .tagline { color: var(--color-accent-light); }

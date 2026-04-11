@@ -1,0 +1,194 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #1A1A1A;
+}
+
+.heroImageWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  transform: scale(1.1);
+  animation: heroZoom 10s ease-out forwards;
+}
+
+@keyframes heroZoom {
+  to { transform: scale(1); }
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(26, 26, 26, 0.4) 60%, #1A1A1A 100%);
+  z-index: 1;
+}
+
+.bgPattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: 
+    linear-gradient(30deg, var(--color-accent) 1px, transparent 1px),
+    linear-gradient(-30deg, var(--color-accent) 1px, transparent 1px);
+  background-size: 60px 100px;
+  z-index: 1;
+}
+
+.floatingGem {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+  z-index: 2;
+  box-shadow: 0 0 20px 4px rgba(201, 169, 110, 0.2);
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 var(--spacing-lg);
+  animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.logoArea {
+  margin-bottom: var(--spacing-lg);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.dividerLine {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+.dividerDiamond {
+  color: var(--color-accent);
+  font-size: var(--fs-sm);
+  animation: goldPulse 3s ease-in-out infinite;
+}
+
+.tagline {
+  font-family: var(--font-accent);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--color-rose);
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-lg);
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto var(--spacing-2xl);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-4xl);
+}
+
+.ctaBtn {
+  min-width: 200px;
+}
+
+.ctaOutline {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+}
+
+.ctaOutline:hover {
+  background: var(--color-white);
+  color: var(--color-primary);
+  border-color: var(--color-white);
+}
+
+/* Scroll indicator */
+.scrollIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  animation: fadeIn 1.5s ease 1s both;
+}
+
+.scrollText {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.scrollLine {
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+}
+
+.scrollDot {
+  width: 100%;
+  height: 12px;
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+  animation: scrollDown 2s ease-in-out infinite;
+}
+
+@keyframes scrollDown {
+  0% { transform: translateY(-12px); }
+  50% { transform: translateY(48px); }
+  100% { transform: translateY(-12px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 100svh;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ctaBtn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

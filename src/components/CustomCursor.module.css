@@ -1,0 +1,38 @@
+.cursorDot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.cursorOutline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  /* Smooth trailing animation */
+  transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.cursorDot.hover {
+  background-color: transparent;
+  width: 0;
+  height: 0;
+}
+
+.cursorOutline.hover {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(201, 169, 110, 0.1);
+  border-color: var(--color-accent);
+}
