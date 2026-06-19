@@ -6,23 +6,34 @@ import Image from 'next/image';
 import { supabase } from '@/utils/supabase/client';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
-import { Heart, Loader2 } from 'lucide-react';
+import { useCurrency } from '@/context/CurrencyContext';
+import { Heart, Loader2, ShoppingBag } from 'lucide-react';
 import styles from './shop.module.css';
 
 export default function ShopContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCollection, setActiveCollection] = useState('All');
   const [activePrice, setActivePrice] = useState('All');
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { formatPrice } = useCurrency();
 
-  const categories = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets'];
+  const collections = [
+    'All', 
+    'Sanatan', 
+    'Genesis', 
+    'Olympus', 
+    'Quantum', 
+    'Cinema/Comic Book', 
+    'Tech/Professionals'
+  ];
+
   const priceRanges = [
     { label: 'All', filter: (query) => query },
-    { label: 'Under ₹20,000', filter: (query) => query.lt('price', 20000) },
-    { label: '₹20,000 - ₹30,000', filter: (query) => query.gte('price', 20000).lte('price', 30000) },
-    { label: 'Over ₹30,000', filter: (query) => query.gt('price', 30000) }
+    { label: 'Under ₹1,000', filter: (query) => query.lt('price', 1000) },
+    { label: '₹1,000 - ₹1,500', filter: (query) => query.gte('price', 1000).lte('price', 1500) },
+    { label: 'Over ₹1,500', filter: (query) => query.gt('price', 1500) }
   ];
 
   useEffect(() => {
@@ -31,8 +42,8 @@ export default function ShopContent() {
       try {
         let query = supabase.from('products').select('*');
         
-        if (activeCategory !== 'All') {
-          query = query.eq('category', activeCategory);
+        if (activeCollection !== 'All') {
+          query = query.eq('collection', activeCollection);
         }
 
         const priceRange = priceRanges.find(r => r.label === activePrice);
@@ -42,17 +53,42 @@ export default function ShopContent() {
 
         const { data, error } = await query.order('created_at', { ascending: false });
         
-        if (error) throw error;
-        setProducts(data || []);
+        if (error || !data || data.length === 0) {
+          throw error || new Error('Empty database or offline');
+        }
+        setProducts(data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.warn('Supabase fetch failed, falling back to local mock data:', error);
+        
+        // Dynamically load local products and apply filters
+        const { products: mockProducts } = require('@/data/products');
+        let filtered = [...mockProducts];
+        
+        if (activeCollection !== 'All') {
+          filtered = filtered.filter(p => p.collection === activeCollection);
+        }
+        
+        if (activePrice === 'Under ₹1,000') {
+          filtered = filtered.filter(p => p.price < 1000);
+        } else if (activePrice === '₹1,000 - ₹1,500') {
+          filtered = filtered.filter(p => p.price >= 1000 && p.price <= 1500);
+        } else if (activePrice === 'Over ₹1,500') {
+          filtered = filtered.filter(p => p.price > 1500);
+        }
+        
+        setProducts(filtered);
       } finally {
         setLoading(false);
       }
     }
 
     fetchProducts();
-  }, [activeCategory, activePrice]);
+  }, [activeCollection, activePrice]);
+
+  const calculateDiscount = (price, originalPrice) => {
+    if (!originalPrice || originalPrice <= price) return null;
+    return Math.round(((originalPrice - price) / originalPrice) * 100);
+  };
 
   return (
     <section className={`section ${styles.content}`}>
@@ -60,17 +96,17 @@ export default function ShopContent() {
         {/* Sidebar Filters */}
         <aside className={styles.sidebar}>
           <div className={styles.filterGroup}>
-            <h3 className={styles.filterTitle}>Category</h3>
+            <h3 className={styles.filterTitle}>Collections</h3>
             <ul className={styles.filterList} role="tablist">
-              {categories.map((cat) => (
-                <li key={cat}>
+              {collections.map((col) => (
+                <li key={col}>
                   <button 
-                    className={`${styles.filterBtn} ${activeCategory === cat ? styles.active : ''}`}
-                    onClick={() => setActiveCategory(cat)}
-                    aria-pressed={activeCategory === cat}
+                    className={`${styles.filterBtn} ${activeCollection === col ? styles.active : ''}`}
+                    onClick={() => setActiveCollection(col)}
+                    aria-pressed={activeCollection === col}
                     role="tab"
                   >
-                    {cat === 'All' ? 'All Jewelry' : cat}
+                    {col === 'All' ? 'All Alignments' : col}
                   </button>
                 </li>
               ))}
@@ -100,64 +136,93 @@ export default function ShopContent() {
           {loading ? (
             <div className={styles.loadingContainer}>
               <Loader2 className={styles.spinner} size={40} />
-              <p>Discovering treasures...</p>
+              <p>Discovering alignments...</p>
             </div>
           ) : products.length > 0 ? (
-            products.map((product) => (
-              <div key={product.id} className={styles.productCard}>
-                <div className={styles.imageWrap}>
-                  <Link href={`/shop/${product.id}`}>
-                    <Image 
-                      src={product.image} 
-                      alt={product.name} 
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      style={{ objectFit: 'cover' }}
-                      loading="lazy"
-                    />
-                  </Link>
+            products.map((product) => {
+              const isWishlisted = isInWishlist(product.id);
+              const discount = calculateDiscount(product.price, product.originalPrice);
 
-                  <button 
-                    className={styles.wishlistBtn}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleWishlist(product);
-                    }}
-                    aria-label={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
-                  >
-                    <Heart 
-                      size={20} 
-                      fill={isInWishlist(product.id) ? "var(--color-accent)" : "none"} 
-                      color={isInWishlist(product.id) ? "var(--color-accent)" : "currentColor"} 
-                    />
-                  </button>
-                  <div className={styles.overlay}>
+              return (
+                <div key={product.id} className={styles.productCard}>
+                  <div className={styles.imageWrap}>
+                    {discount && (
+                      <span className={styles.saveBadge}>SAVE {discount}%</span>
+                    )}
+
+                    <Link href={`/shop/${product.id}`}>
+                      <div className={styles.imageContainer}>
+                        <Image 
+                          src={product.image} 
+                          alt={product.name} 
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className={styles.mainImage}
+                          loading="lazy"
+                        />
+                        {product.hoverImage && (
+                          <Image 
+                            src={product.hoverImage} 
+                            alt={`${product.name} alternate view`} 
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className={styles.hoverImage}
+                            loading="lazy"
+                          />
+                        )}
+                      </div>
+                    </Link>
+
                     <button 
-                      className="btn btn-primary btn-sm"
+                      className={styles.wishlistBtn}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleWishlist(product);
+                      }}
+                      aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                      <Heart 
+                        size={20} 
+                        fill={isWishlisted ? "var(--color-accent)" : "none"} 
+                        color={isWishlisted ? "var(--color-accent)" : "currentColor"} 
+                      />
+                    </button>
+
+                    {/* Bonkers Corner Inspired ADD TO CART bar */}
+                    <button 
+                      className={styles.addToCartBar}
                       onClick={(e) => {
                         e.preventDefault();
                         addToCart(product, product.sizes ? product.sizes[0] : null);
                       }}
-                      aria-label={`Quick add ${product.name} to cart`}
+                      aria-label={`Add ${product.name} to cart`}
                     >
-                      Quick Add
+                      <ShoppingBag size={14} />
+                      ADD TO CART
                     </button>
                   </div>
+
+                  <div className={styles.productInfo}>
+                    <span className={styles.productCol}>{product.collection}</span>
+                    <Link href={`/shop/${product.id}`} className={styles.productLink}>
+                      <h3 className={styles.productName}>{product.name}</h3>
+                    </Link>
+                    <div className={styles.priceRow}>
+                      <span className={styles.productPrice}>{formatPrice(product.price)}</span>
+                      {product.originalPrice && (
+                        <span className={styles.productOriginalPrice}>{formatPrice(product.originalPrice)}</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.productInfo}>
-                  <Link href={`/shop/${product.id}`} className={styles.productLink}>
-                    <h3 className={styles.productName}>{product.name}</h3>
-                  </Link>
-                  <p className={styles.productPrice}>₹{product.price.toLocaleString()}</p>
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div className={styles.noResults}>
               <p>No products found matching your criteria.</p>
               <button 
                 className="btn btn-secondary" 
-                onClick={() => { setActiveCategory('All'); setActivePrice('All'); }}
+                onClick={() => { setActiveCollection('All'); setActivePrice('All'); }}
               >
                 Clear Filters
               </button>
@@ -191,4 +256,3 @@ export default function ShopContent() {
     </section>
   );
 }
-

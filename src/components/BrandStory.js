@@ -47,16 +47,13 @@ export default function BrandStory() {
         {/* Text side */}
         <div className={`${styles.textCol} reveal-right`}>
           <span className="section-label">Our Story</span>
-          <h2 className={styles.title}>Where Tradition Meets <em>Modern Elegance</em></h2>
+          <h2 className={styles.title}>Where Ancient Wisdom Meets <em>Modern Consciousness</em></h2>
           <div className="divider" style={{ margin: '1.5rem 0' }} />
           <p className={styles.text}>
-            Avlunè was born from a love of Korean-inspired aesthetics and timeless craftsmanship. 
-            Each piece in our collection is meticulously designed to celebrate the quiet confidence 
-            and grace of the modern woman.
+            Born from a fusion of sacred traditions and cutting-edge aesthetics. We don't just make clothes — we create wearable shrines.
           </p>
           <p className={styles.text}>
-            From delicate minimalist rings to statement necklaces, every creation carries 
-            the essence of artistry, precision, and an unwavering attention to detail.
+            From the timeless verses of Hinduism in Sanatan, to the timeless symbols of Christianity in Genesis, the eternal myths of Greek Olympus, from Unified Consciousness in Quantum Mindspace to your favorite Comic book Hero — everything carries a deeper meaning.
           </p>
           
           <div className={styles.stats}>
@@ -65,12 +62,12 @@ export default function BrandStory() {
               <span className={styles.statLabel}>Unique Designs</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNumber}>10K+</span>
-              <span className={styles.statLabel}>Happy Customers</span>
+              <span className={styles.statNumber}>10000+</span>
+              <span className={styles.statLabel}>Seekers Joined</span>
             </div>
             <div className={styles.stat}>
               <span className={styles.statNumber}>100%</span>
-              <span className={styles.statLabel}>Handcrafted</span>
+              <span className={styles.statLabel}>Quality Crafted</span>
             </div>
           </div>
 

@@ -1,0 +1,215 @@
+.widgetWrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* On mobile, shift it up slightly to avoid overlapping the bottom nav bar */
+@media (max-width: 768px) {
+  .widgetWrapper {
+    bottom: 5.5rem;
+    right: 1.5rem;
+  }
+}
+
+.floatBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floatBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+}
+
+.tooltip {
+  position: absolute;
+  right: 70px;
+  background: #1A1A1A;
+  color: white;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.widgetWrapper:hover .tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.popover {
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.header {
+  background: #1A1A1A;
+  color: white;
+  padding: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brandInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #1A1A1A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.brandInfo h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brandInfo span {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  padding: 4px;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+}
+
+.body {
+  padding: 1.2rem;
+  background: #FDFBF9;
+}
+
+.introText {
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.introText strong {
+  color: #1A1A1A;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.contactCard {
+  background: white;
+  border: 1px solid var(--color-border);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contactCard:hover {
+  border-color: #25D366;
+  background: rgba(37, 211, 102, 0.02);
+  transform: translateY(-2px);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.region {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.number {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.sendIcon {
+  color: #25D366;
+  opacity: 0.8;
+}
+
+.footer {
+  padding: 0.6rem;
+  text-align: center;
+  background: #F5F0EB;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.65rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

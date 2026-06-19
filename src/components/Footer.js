@@ -17,8 +17,8 @@ export default function Footer() {
           <div className={styles.brand}>
             <Logo variant="dark" size="lg" showTagline />
             <p className={styles.brandText}>
-              Exquisite handcrafted jewelry celebrating elegance 
-              and timeless Korean-inspired design.
+              Premium contemporary apparel celebrating elegance,
+              individuality, and timeless modern style.
             </p>
             <div className={styles.socials}>
               <a href="#" className={styles.socialLink} aria-label="Instagram">
@@ -33,27 +33,26 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Shop */}
           <div className={styles.linkGroup}>
-            <h4 className={styles.linkTitle}>Quick Links</h4>
+            <h4 className={styles.linkTitle}>Shop</h4>
             <nav className={styles.links}>
-              <Link href="/shop">Shop All</Link>
+              <Link href="/shop">All Products</Link>
               <Link href="/shop">New Arrivals</Link>
-              <Link href="/shop">Bestsellers</Link>
-              <Link href="/about">Our Story</Link>
-              <Link href="/contact">Contact</Link>
+              <Link href="/shop">Best Sellers</Link>
+              <Link href="/shop?category=T-shirts%20%26%20Tees">T-shirts & Tees</Link>
             </nav>
           </div>
 
-          {/* Categories */}
+          {/* Company */}
           <div className={styles.linkGroup}>
-            <h4 className={styles.linkTitle}>Categories</h4>
+            <h4 className={styles.linkTitle}>Company</h4>
             <nav className={styles.links}>
-              <Link href="/shop">Rings</Link>
-              <Link href="/shop">Necklaces</Link>
-              <Link href="/shop">Earrings</Link>
-              <Link href="/shop">Bracelets</Link>
-              <Link href="/shop">Gift Sets</Link>
+              <Link href="/about">About Us</Link>
+              <Link href="/contact">Contact</Link>
+              <Link href="/shipping-returns">Shipping & Returns</Link>
+              <Link href="/faq">FAQ</Link>
+              <Link href="/size-guide">Size Guide</Link>
             </nav>
           </div>
 

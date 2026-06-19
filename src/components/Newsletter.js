@@ -40,12 +40,11 @@ export default function Newsletter() {
       <div className={`container ${styles.container}`}>
         <div className={`${styles.content} reveal`}>
           <span className="section-label" style={{ color: 'var(--color-accent-light)' }}>
-            Stay Connected
+            Exclusive Circle
           </span>
-          <h2 className={styles.title}>Join the Avlunè Family</h2>
+          <h2 className={styles.title}>Join the Coterie</h2>
           <p className={styles.subtitle}>
-            Be the first to discover new collections, receive exclusive offers, 
-            and experience the world of Avlunè.
+            Get festival collection alerts, exclusive access to raw drops, upcoming innovative products, and spiritual content that feeds your soul.
           </p>
           
           <form className={styles.form} onSubmit={handleSubmit}>
@@ -64,12 +63,12 @@ export default function Newsletter() {
               </button>
             </div>
             {submitted && (
-              <p className={styles.success}>Welcome to the family! ✨</p>
+              <p className={styles.success}>Welcome to the coterie! Check your inbox for your 15% discount code & meditation guide PDF. ✨</p>
             )}
           </form>
 
           <p className={styles.disclaimer}>
-            No spam, ever. Unsubscribe anytime.
+            Incentive: Subscribe & Get 15% Off + Free Meditation Guide PDF. No spam, ever.
           </p>
         </div>
       </div>

@@ -1,12 +1,53 @@
-.header {
+.navWrapper {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  height: var(--header-height);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-base);
+}
+
+/* Announcement Bar Marquee */
+.announcementBar {
+  background: var(--color-primary);
+  color: var(--color-white);
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.marqueeText {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+  white-space: nowrap;
+}
+
+.marqueeText span {
+  padding: 0 2rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.header {
+  height: 80px;
+  position: relative;
   transition: all var(--transition-base);
   color: var(--color-white);
+  background: transparent;
 }
 
 .header.scrolled {
@@ -143,6 +184,105 @@
   z-index: 1001;
 }
 
+/* Currency Dropdown */
+.currencyWrapper {
+  position: relative;
+}
+
+.currencyBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: inherit;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.currencyBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.currencyDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0;
+  min-width: 110px;
+  z-index: 1010;
+  list-style: none;
+}
+
+.currencyDropdown button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.currencyDropdown button:hover, 
+.currencyDropdown button.activeCurrency {
+  background: #F5F0EB;
+  color: var(--color-accent-dark);
+}
+
+/* Mobile Menu Currency selector */
+.mobileCurrencySelector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  align-items: center;
+  margin-top: var(--spacing-sm);
+}
+
+.mobileCurrencySelector span {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mobileCurrencyOptions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mobileCurrencyOptions button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: white;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mobileCurrencyOptions button.activeMobileCurrency {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
 /* Mobile Menu */
 .mobileMenu {
   position: fixed;
@@ -166,19 +306,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-2xl);
+  gap: var(--spacing-xl);
 }
 
 .mobileNav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .mobileNavLink {
   font-family: var(--font-display);
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-xl);
   font-weight: 400;
   color: var(--color-primary);
   text-decoration: none;

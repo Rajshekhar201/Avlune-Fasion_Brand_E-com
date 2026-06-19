@@ -1,0 +1,98 @@
+.mobileNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(253, 251, 249, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+  padding: 0 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+  .mobileNav {
+    display: none !important;
+  }
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.navItem:hover, .navItem.active {
+  color: var(--color-primary);
+}
+
+.iconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.65rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Home Icon styling */
+.homeIconContainer {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customHomeSvg {
+  width: 100%;
+  height: 100%;
+  color: inherit;
+}
+
+.gothicLetter {
+  font-family: var(--font-display), 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 10px;
+  fill: currentColor;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-family: var(--font-body), sans-serif;
+  margin-top: 2px;
+}

@@ -224,3 +224,82 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
+
+/* Shipping Progress Bar styles */
+.shippingProgressContainer {
+  padding: 1rem 1.5rem;
+  background: #FAF6F0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.shippingProgressText {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.shippingProgressText strong {
+  font-weight: 700;
+  color: var(--color-accent-dark);
+}
+
+.progressBarWrapper {
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 99px;
+  transition: width 0.4s ease-out;
+}
+
+.shippingSummary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+
+/* UPI cart styles */
+.cartUpiSection {
+  background: white;
+  border: 1px solid var(--color-border);
+  padding: 0.8rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.cartUpiSection p {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.cartUpiLogos {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.cartUpiLogos span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  border: 1px solid var(--color-border);
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: #FDFBF9;
+}
+

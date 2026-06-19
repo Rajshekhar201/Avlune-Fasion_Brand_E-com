@@ -31,8 +31,8 @@ export default function Hero() {
       {/* Background Hero Image */}
       <div className={styles.heroImageWrapper}>
         <Image 
-          src="/images/hero.png" 
-          alt="Luxury Jewelry" 
+          src="/images/hero_fashion.png" 
+          alt="Premium Apparel" 
           fill 
           className={styles.heroImage} 
           priority 
@@ -62,11 +62,11 @@ export default function Hero() {
           <span className={styles.dividerLine} />
         </div>
 
-        <p className={styles.tagline}>Grace in every detail</p>
+        <p className={styles.tagline}>Wear Your Faith, Define Your Style</p>
         
         <p className={styles.description}>
-          Discover exquisite handcrafted jewelry that celebrates elegance, 
-          femininity, and timeless Korean-inspired design.
+          Discover premium contemporary apparel and clothing celebrating elegance, 
+          individuality, where Ancient Wisdom meets Modern Comfort.
         </p>
 
         <div className={styles.actions}>

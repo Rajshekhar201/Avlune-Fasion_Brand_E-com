@@ -26,10 +26,14 @@ export default function FeaturedCollection() {
           .limit(4)
           .order('created_at', { ascending: false });
         
-        if (error) throw error;
-        setProducts(data || []);
+        if (error || !data || data.length === 0) {
+          throw error || new Error('Empty database or offline');
+        }
+        setProducts(data);
       } catch (err) {
-        console.error('Error fetching featured products:', err);
+        console.warn('Supabase fetch failed for featured products, falling back to local mock data:', err);
+        const { products: mockProducts } = require('@/data/products');
+        setProducts(mockProducts.slice(0, 4));
       } finally {
         setLoading(false);
       }
@@ -64,7 +68,7 @@ export default function FeaturedCollection() {
           <h2 className="section-title">Featured Collection</h2>
           <div className="divider" />
           <p className="section-subtitle">
-            Each piece tells a story of artistry and grace
+            Premium styles curated for effortless daily comfort and style
           </p>
         </div>
 
@@ -147,7 +151,7 @@ export default function FeaturedCollection() {
 
         <div className={`${styles.viewAll} reveal`}>
           <Link href="/shop" className="btn btn-outline-gold">
-            View All Pieces <ArrowRight size={16} />
+            View All Products <ArrowRight size={16} />
           </Link>
         </div>
       </div>

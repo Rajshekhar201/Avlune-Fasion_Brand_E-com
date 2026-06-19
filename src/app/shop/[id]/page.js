@@ -6,14 +6,34 @@ import { notFound } from 'next/navigation';
 
 export const revalidate = 3600; // revalidate at most every hour
 
-export async function generateMetadata({ params }) {
+async function getProduct(id) {
+  let product = null;
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (data && !error) {
+      product = data;
+    }
+  } catch (err) {
+    console.warn('Failed to fetch product from Supabase, looking in local products:', err);
+  }
 
+  // Fallback to local products
+  if (!product) {
+    const { products: mockProducts } = require('@/data/products');
+    product = mockProducts.find(p => p.id === parseInt(id));
+  }
+
+  return product;
+}
+
+export async function generateMetadata({ params }) {
   const { id } = await params;
-  const { data: product } = await supabase
-    .from('products')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const product = await getProduct(id);
   
   if (!product) {
     return {
@@ -22,11 +42,11 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${product.name} — Avlunè | Crafted Grace`,
-    description: `Discover the elegant ${product.name}. A stunning piece from the Avlunè luxury ${product.category?.toLowerCase()} collection.`,
+    title: `${product.name} — Avlunè | Wear Your Faith`,
+    description: `Discover ${product.name} from the Avlunè ${product.collection} streetwear collection. Wear your faith, define your style.`,
     openGraph: {
       title: `${product.name} — Avlunè`,
-      description: `Premium handcrafted ${product.category?.toLowerCase()} by Avlunè.`,
+      description: `Premium streetwear from the ${product.collection} collection by Avlunè.`,
       images: [{ url: product.image }],
     }
   };
@@ -34,12 +54,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductPage({ params }) {
   const { id } = await params;
-  
-  const { data: product } = await supabase
-    .from('products')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const product = await getProduct(id);
 
   if (!product) {
     notFound();
@@ -53,4 +68,3 @@ export default async function ProductPage({ params }) {
     </>
   );
 }
-

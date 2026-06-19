@@ -7,25 +7,39 @@ import styles from './Testimonials.module.css';
 const testimonials = [
   {
     id: 1,
-    name: 'Priya Sharma',
-    location: 'Mumbai',
-    text: 'The Celestine Ring is absolutely breathtaking. The attention to detail is exceptional — it truly feels like wearing a piece of art.',
+    name: 'Apoorva Reddy',
+    location: 'Hyderabad',
+    text: "Finally, designs that speak to my soul! The Sanatan collection's Dharma tee feels sacred yet so modern.",
     rating: 5,
   },
   {
     id: 2,
-    name: 'Ananya Reddy',
-    location: 'Hyderabad',
-    text: 'Avlunè captures an elegance I haven\'t found anywhere else. The Lumière Necklace has become my everyday signature piece.',
+    name: 'James',
+    location: 'London',
+    text: "Finally a Christian streetwear brand that doesn't look outdated! The Genesis details are outstanding.",
     rating: 5,
   },
   {
     id: 3,
-    name: 'Meera Patel',
-    location: 'Delhi',
-    text: 'From the packaging to the jewelry itself, everything speaks of premium quality. I\'m a customer for life.',
+    name: 'Chloe',
+    location: 'Athens',
+    text: "The Greek mythology designs are subtle yet powerful! Got so many compliments on my Athena tee.",
     rating: 5,
   },
+  {
+    id: 4,
+    name: 'Max',
+    location: 'Berlin',
+    text: "Sacred geometry tee gets me compliments everywhere! The Quantum collection print quality is top-notch.",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: 'Meera Patel',
+    location: 'Delhi',
+    text: "The quality of the prints is unreal. Wearing the Quantum Mindspace tee is like wearing a conversation starter.",
+    rating: 5,
+  }
 ];
 
 export default function Testimonials() {

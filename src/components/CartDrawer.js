@@ -1,17 +1,34 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import styles from './CartDrawer.module.css';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { supabase } from '@/utils/supabase/client';
 
-
 export default function CartDrawer() {
   const { cart, removeFromCart, updateQuantity, cartTotal, isDrawerOpen, setIsDrawerOpen, clearCart } = useCart();
+  const { currency, convertPrice, formatPrice, symbols } = useCurrency();
   const [checkoutStatus, setCheckoutStatus] = useState('idle');
 
   if (!isDrawerOpen) return null;
+
+  // Free shipping progress bar details
+  const getShippingThreshold = () => {
+    switch (currency) {
+      case 'INR': return 999;
+      case 'GBP': return 30;
+      case 'EUR': return 40;
+      case 'USD': default: return 50;
+    }
+  };
+
+  const shippingThreshold = getShippingThreshold();
+  const convertedTotal = convertPrice(cartTotal);
+  const isFreeShipping = convertedTotal >= shippingThreshold;
+  const remainingForFreeShipping = Math.max(shippingThreshold - convertedTotal, 0);
+  const progressPercentage = Math.min((convertedTotal / shippingThreshold) * 100, 100);
 
   const handleCheckout = async () => {
     setCheckoutStatus('processing');
@@ -19,7 +36,7 @@ export default function CartDrawer() {
     try {
       // Prepare the order data
       const orderData = {
-        customer_name: 'Guest Customer', // Static for now, can be dynamic if auth added
+        customer_name: 'Guest Customer', // Static for now
         total_amount: cartTotal,
         items: cart.map(item => ({
           id: item.id,
@@ -54,7 +71,6 @@ export default function CartDrawer() {
     }
   };
 
-
   return (
     <>
       <div 
@@ -73,6 +89,27 @@ export default function CartDrawer() {
             <X size={24} />
           </button>
         </header>
+
+        {/* Free Shipping Progress Bar Section */}
+        {cart.length > 0 && checkoutStatus !== 'success' && (
+          <div className={styles.shippingProgressContainer}>
+            <p className={styles.shippingProgressText}>
+              {isFreeShipping ? (
+                <span>🎉 Congratulations! You have unlocked <strong>FREE SHIPPING</strong></span>
+              ) : (
+                <span>
+                  Add <strong>{symbols[currency]}{remainingForFreeShipping.toFixed(2)}</strong> more to unlock <strong>FREE SHIPPING</strong>
+                </span>
+              )}
+            </p>
+            <div className={styles.progressBarWrapper}>
+              <div 
+                className={styles.progressBar} 
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          </div>
+        )}
 
         <div className={styles.content}>
           {checkoutStatus === 'success' ? (
@@ -109,7 +146,7 @@ export default function CartDrawer() {
                       </button>
                     </div>
                     {item.size && <p className={styles.itemSize}>Size: {item.size}</p>}
-                    <p className={styles.itemPrice}>₹{item.price.toLocaleString()}</p>
+                    <p className={styles.itemPrice}>{formatPrice(item.price)}</p>
                     
                     <div className={styles.quantityControls}>
                       <button 
@@ -137,9 +174,26 @@ export default function CartDrawer() {
           <footer className={styles.footer}>
             <div className={styles.totalDiv}>
               <span>Subtotal</span>
-              <span>₹{cartTotal.toLocaleString()}</span>
+              <span>{formatPrice(cartTotal)}</span>
             </div>
-            <p className={styles.taxes}>Taxes and shipping calculated at checkout.</p>
+            
+            {/* Free Shipping status indicator */}
+            <div className={styles.shippingSummary}>
+              <span>Shipping</span>
+              <span>{isFreeShipping ? 'FREE' : formatPrice(250)}</span> {/* ₹250 flat shipping if not free */}
+            </div>
+
+            {/* UPI payments options badge */}
+            <div className={styles.cartUpiSection}>
+              <p>Express UPI Checkout Available</p>
+              <div className={styles.cartUpiLogos}>
+                <span>GPay</span>
+                <span>PhonePe</span>
+                <span>Paytm</span>
+                <span>BHIM</span>
+              </div>
+            </div>
+
             <button 
               className={`btn btn-primary ${styles.checkoutBtn}`}
               onClick={handleCheckout}
